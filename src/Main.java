@@ -8,23 +8,28 @@ public class Main {
     private HelloWorldController controller;
     private Scanner scanner;
 
-    public void setController(HelloWorldController controller) {
-        this.controller = controller;
+    private static final int SHOW_RULES = 1;
+    private static final int TYPE_WORD = 2;
+    private static final int SHOW_RESULT = 3;
+    private static final int EXIT = 4;
+
+    public Main() {
+
     }
 
-    public void setScanner(Scanner scanner) {
-        this.scanner = scanner;
+    public Main(HelloWorldController c, Scanner sc) {
+        this.controller = c;
+        this.scanner = sc;
     }
 
     public static void main(String[] args) {
-        Main main = new Main();
-
         HelloWorldModel model = new HelloWorldModel();
         HelloWorldView view = new HelloWorldView();
 
-        main.setController(new HelloWorldController(model, view));
-        main.setScanner(new Scanner(System.in));
+        HelloWorldController controller = new HelloWorldController(model, view);
+        Scanner sc = new Scanner(System.in);
 
+        Main main = new Main(controller, sc);
         main.startProgram();
     }
 
@@ -38,16 +43,24 @@ public class Main {
 
             int option = getOptionFromUser();
 
-            if (option == 1) {
-                controller.showRules();
-            } else if (option == 2) {
-                String word = getWordFromUser();
-                controller.addWordInput(word);
-            } else if (option == 3) {
-                controller.showCurrentResult();
-            } else if (option == 4) {
-                controller.showExitInfo();
-                isRunning = false;
+            switch (option) {
+                case SHOW_RULES:
+                    controller.showRules();
+                    break;
+
+                case TYPE_WORD:
+                    String word = getWordFromUser();
+                    controller.addWordInput(word);
+                    break;
+
+                case SHOW_RESULT:
+                    controller.showCurrentResult();
+                    break;
+
+                case EXIT:
+                    controller.showExitInfo();
+                    isRunning = false;
+                    break;
             }
 
         } while (isRunning);

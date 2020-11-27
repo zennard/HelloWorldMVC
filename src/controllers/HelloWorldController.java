@@ -50,18 +50,26 @@ public class HelloWorldController {
         view.showExitMessage();
     }
 
+    //TODO: method has side effects, gonna change later
     public void addWordInput(String word) {
-        if (word == null || word.isEmpty()) {
-            showEmptyValueError();
-            return;
-        }
-        if (!model.isWordCorrect(word)) {
-            showWrongValueError();
-            return;
-        }
+        if (!isInputValid(word)) return;
 
         model.addWord(word);
         showSuccessfulInsertionInfo();
+    }
+
+    //TODO: method has side effects, gonna change later
+    private boolean isInputValid(String word) {
+        if (word == null || word.isEmpty()) {
+            showEmptyValueError();
+            return false;
+        }
+        if (!model.isWordCorrect(word)) {
+            showWrongValueError();
+            return false;
+        }
+
+        return true;
     }
 
     public void showCurrentResult() {
