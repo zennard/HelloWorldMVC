@@ -50,7 +50,12 @@ public class Main {
 
                 case TYPE_WORD:
                     String word = getWordFromUser();
-                    controller.addWordInput(word);
+                    if (!controller.addWordInput(word)) {
+                        controller.showInputError(word);
+                    } else {
+                        controller.showSuccessfulInsertionInfo();
+                    }
+
                     break;
 
                 case SHOW_RESULT:

@@ -22,6 +22,15 @@ public class HelloWorldController {
         view.showWrongValueError();
     }
 
+    public void showInputError(String input) {
+        if (input == null || input.isEmpty()) {
+            showEmptyValueError();
+        }
+        if (!model.isWordCorrect(input)) {
+            showWrongValueError();
+        }
+    }
+
     public void showIncorrectOptionError() {
         view.showIncorrectOptionError();
     }
@@ -50,26 +59,17 @@ public class HelloWorldController {
         view.showExitMessage();
     }
 
-    //TODO: method has side effects, gonna change later
-    public void addWordInput(String word) {
-        if (!isInputValid(word)) return;
+    public boolean addWordInput(String word) {
+        if (!isInputValid(word)) return false;
 
         model.addWord(word);
-        showSuccessfulInsertionInfo();
+        return true;
     }
 
-    //TODO: method has side effects, gonna change later
     private boolean isInputValid(String word) {
-        if (word == null || word.isEmpty()) {
-            showEmptyValueError();
-            return false;
-        }
-        if (!model.isWordCorrect(word)) {
-            showWrongValueError();
-            return false;
-        }
+        if (word == null || word.isEmpty()) return false;
 
-        return true;
+        return model.isWordCorrect(word);
     }
 
     public void showCurrentResult() {
